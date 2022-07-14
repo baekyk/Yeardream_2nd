@@ -2,6 +2,8 @@
 ### Predict delay of Airline by kaggle dataset
 
 [kaggle dataset : Alirlines dataset to predict a delay]("https://www.kaggle.com/datasets/jimschacko/airlines-dataset-to-predict-a-delay")
+https://www.kaggle.com/datasets/jimschacko/airlines-dataset-to-predict-a-delay
+
 
 ![API 캡쳐](https://user-images.githubusercontent.com/100173997/178756132-7244768f-25dc-430e-a15e-7c632e7129d5.png)
 
