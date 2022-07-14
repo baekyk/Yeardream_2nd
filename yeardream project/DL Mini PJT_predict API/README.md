@@ -1,7 +1,8 @@
 ## DL Mini PJT
 ### Predict delay of Airline by kaggle dataset
 
-[kaggle dataset : Alirlines dataset to predict a delay]("https://www.kaggle.com/datasets/jimschacko/airlines-dataset-to-predict-a-delay")
+[kaggle dataset : Alirlines dataset to predict a delay]("https://www.kaggle.com/datasets/jimschacko/airlines-dataset-to-predict-a-delay")  
+
 https://www.kaggle.com/datasets/jimschacko/airlines-dataset-to-predict-a-delay
 
 
