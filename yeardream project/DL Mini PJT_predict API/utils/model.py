@@ -1,4 +1,3 @@
-import tensorflow as tf
 from tensorflow.keras import datasets, utils
 from tensorflow.keras import models, layers, activations, initializers, losses, optimizers, metrics
 from tensorflow.keras.callbacks import ModelCheckpoint, TensorBoard, ReduceLROnPlateau
@@ -8,6 +7,7 @@ from flask import request
 from preprocess import OHE_transform
 import pandas as pd
 import numpy as np
+import os
 
 
 def DL_model():
@@ -35,21 +35,26 @@ def DL_model():
 
     model.add(layers.Dense(units=2, activation='softmax')) # Apply softmax function on model's output
 
+    return model
 
+
+def model_compile(model):
     # "Compile" the model description (Configures the model for training)
     model.compile(optimizer=optimizers.Adam(), # Please try the Adam-optimizer
                 loss=losses.categorical_crossentropy, 
                 metrics=[metrics.categorical_accuracy]) # Precision / Recall / F1-Score 적용하기 @ https://j.mp/3cf3lbi
-    return model
+
 
 def model_fit(model, train_data, train_label, batch_size, epochs, CALLBACK):
     # "Fit" the model on training data
-    model.fit(train_data, train_label, batch_size=batch_size, epochs=epochs, validation_split=0.3,verbose=2, callbacks=CALLBACK) 
+    history = model.fit(train_data, train_label, batch_size=batch_size, epochs=epochs, validation_split=0.3,verbose=2, callbacks=CALLBACK) 
+
+    return history
 
 
 
 def callback():
-    CP = ModelCheckpoint(filepath='../model/-{epoch:03d}-{loss:.4f}-{accuracy:.4f}.hdf5',
+    CP = ModelCheckpoint(filepath='../model/-{epoch:03d}-{loss:.4f}-{val_categorical_accuracy:.4f}.hdf5',
             monitor='loss', verbose=1, save_best_only=True, mode='min')
 
     # Learning Rate 줄여나가기
@@ -59,8 +64,10 @@ def callback():
     return CALLBACK
 
 
-def model_load(name):
-    model = models.load_model(name)
+def model_load():
+    MoelWeights = os.listdir('../model/')
+    BestModel = MoelWeights[ len(MoelWeights) -1 ]
+    model = models.load_model('../model/' + BestModel)
 
     return model
 
