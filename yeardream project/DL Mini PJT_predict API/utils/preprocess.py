@@ -28,14 +28,8 @@ def train_test_split(train, test):
     return train_data, test_data, train_label, test_label
 
 
-def scaler_fit(train_data):
-    scaler = StandardScaler()
-    scaler.fit(train_data)
 
-    return scaler
-
-
-def scaler_transform(train_data, test_data):
+def scaler_transform(train_data, test_data, scaler):
     train_data = pd.DataFrame(scaler.transform(train_data), columns=train.columns)
     test_data = pd.DataFrame(scaler.transform(test_data),columns=train.columns)
 
