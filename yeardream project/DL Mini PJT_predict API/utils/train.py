@@ -6,8 +6,8 @@ from dataloader import dataload
 import tensorflow as tf
 
 batch_size = 2048
-epoch = 20
-
+epoch = 30
+# saved_name = f'"batch :"{batch_size}, "epoch :" {epoch}'
 
 
 df = dataload()
@@ -32,7 +32,7 @@ train_label, test_label = categorical(train_label, test_label)
 model = DL_model()
 model_compile(model)
 
-CALLBACK = callback()
+CALLBACK = callback(batch_size, epoch)
 
 with tf.device("/device:GPU:0"):
     history = model_fit(model,train_data,train_label,batch_size,epoch,CALLBACK)

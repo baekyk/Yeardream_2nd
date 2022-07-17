@@ -19,7 +19,7 @@ def OHE_transform(column,data,enc):
     return data
 
 
-def train_test_split(train, test):
+def train_test_split(df):
     test = df.loc[:,'Delay']
     train = df.drop(columns=['Delay','Airline','AirportFrom','AirportTo'])
 
@@ -30,8 +30,8 @@ def train_test_split(train, test):
 
 
 def scaler_transform(train_data, test_data, scaler):
-    train_data = pd.DataFrame(scaler.transform(train_data), columns=train.columns)
-    test_data = pd.DataFrame(scaler.transform(test_data),columns=train.columns)
+    train_data = pd.DataFrame(scaler.transform(train_data), columns=train_data.columns)
+    test_data = pd.DataFrame(scaler.transform(test_data),columns=train_data.columns)
 
     return train_data, test_data
 

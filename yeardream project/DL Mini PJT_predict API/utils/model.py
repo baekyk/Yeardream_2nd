@@ -7,28 +7,32 @@ from flask import request
 from preprocess import OHE_transform
 import pandas as pd
 import numpy as np
-import os
+import os.path
 
 
 def DL_model():
     model = models.Sequential() # Build up the "Sequence" of layers (Linear stack of layers)
 
     # Dense-layer (with he-initialization)
-    model.add(layers.Dense(input_dim=608, units=500, activation=None, kernel_initializer=initializers.he_uniform())) # he-uniform initialization
+    model.add(layers.Dense(input_dim=608, units=1024, activation=None, kernel_initializer=initializers.he_uniform())) # he-uniform initialization
     model.add(layers.BatchNormalization()) # Use this line as if needed
     model.add(layers.Activation('elu')) # elu or relu (or layers.ELU / layers.LeakyReLU)
 
 
-    model.add(layers.Dense(units=300, activation=None, kernel_initializer=initializers.he_uniform())) 
+    model.add(layers.Dense(units=1024, activation=None, kernel_initializer=initializers.he_uniform())) 
+    model.add(layers.BatchNormalization())
+    model.add(layers.Activation('elu')) 
+
+    model.add(layers.Dense(units=512, activation=None, kernel_initializer=initializers.he_uniform())) 
+    model.add(layers.BatchNormalization())
+    model.add(layers.Activation('elu'))
+    
+    model.add(layers.Dense(units=256, activation=None, kernel_initializer=initializers.he_uniform())) 
     model.add(layers.BatchNormalization())
     model.add(layers.Activation('elu')) 
     model.add(layers.Dropout(rate=0.2)) # Dropout-layer
 
-    # model.add(layers.Dense(units=10, activation=None, kernel_initializer=initializers.he_uniform())) 
-    # model.add(layers.BatchNormalization())
-    # model.add(layers.Activation('relu'))
-
-    model.add(layers.Dense(units=100, activation=None, kernel_initializer=initializers.he_uniform())) 
+    model.add(layers.Dense(units=128, activation=None, kernel_initializer=initializers.he_uniform())) 
     model.add(layers.BatchNormalization())
     model.add(layers.Activation('elu')) 
     model.add(layers.Dropout(rate=0.2)) # Dropout-layer
@@ -53,9 +57,9 @@ def model_fit(model, train_data, train_label, batch_size, epochs, CALLBACK):
 
 
 
-def callback():
-    CP = ModelCheckpoint(filepath='../model/-{epoch:03d}-{loss:.4f}-{val_categorical_accuracy:.4f}.hdf5',
-            monitor='loss', verbose=1, save_best_only=True, mode='min')
+def callback(batch_size,epoch):
+    CP = ModelCheckpoint(filepath=os.path.join('../models',f'{batch_size}-{epoch}','{val_categorical_accuracy:.4f}.hdf5'),
+            monitor='val_loss', verbose=1, save_best_only=True, mode='min')
 
     # Learning Rate 줄여나가기
     LR = ReduceLROnPlateau(monitor='loss',factor=0.8,patience=3, verbose=1, min_lr=1e-8)
@@ -64,10 +68,10 @@ def callback():
     return CALLBACK
 
 
-def model_load():
-    MoelWeights = os.listdir('../model/')
+def model_load(batch_size, epoch):
+    MoelWeights = os.listdir(os.path.join('../models',f'{batch_size}-{epoch}'))
     BestModel = MoelWeights[ len(MoelWeights) -1 ]
-    model = models.load_model('../model/' + BestModel)
+    model = models.load_model(os.path.join('../models',f'{batch_size}-{epoch}',BestModel))
 
     return model
 
