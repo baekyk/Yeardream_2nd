@@ -38,7 +38,7 @@ with tf.device("/device:GPU:0"):
     history = model_fit(model,train_data,train_label,batch_size,epoch,CALLBACK)
 
 
-bestmodel = model_load()
+bestmodel = model_load(batch_size, epoch)
 
 result = bestmodel.evaluate(test_data, test_label)
 
