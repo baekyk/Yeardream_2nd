@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Braille</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+    
+
+<div class="container">
+    <div class="jumbotron text-center">
+        <!-- <div class="head"> -->
+            <h1>Translate Braille </h1>
+        </div>
+        <p>
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <ul>
+                {% for message in messages %}
+                  <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
+        </p>
+  <!-- <img src="{{url_for('static', filename='cover.png')}}" align="right" width="500", height="260"/> -->
+    <form method="post"  enctype="multipart/form-data" action="braille">
+    <div class="mb-3 row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-4">
+            <label for="form-label" class="form-label">Braille</label>
+            <input class="form-control" type="file" id="file" name="file">
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-3">
+            <!-- 글자 출력 부분 -->
+            {% if output %}
+            <ul>
+                  <li> {{output}} </li>
+            </ul>
+            {% endif %}
+            
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-1">
+        <button type="submit" class="btn btn-primary text-center">Translate</button>
+        </div>
+    </div>
+    </form>
+
+
+    <br><br>
+  
+
+   <form method="post" action="braille_out" enctype="multipart/form-data">
+    <div class="form-group row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-4">
+            <label for="word" >Word</label>
+            <input type="text" class="form-control" id="word" placeholder="input word" name="word" >
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-6">
+            <!-- 사진 출력 부분	 -->
+            {% if output2 %}
+            <img class="img-responsive" src="{{url_for('static', filename= output2 ) }}" alt=" Translated braille ">
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-1">
+        <button type="submit" class="btn btn-primary text-center">Translate</button>
+        </div>
+    </div>
+  </form>
+
+
+</div>
+</body>
+</html>
