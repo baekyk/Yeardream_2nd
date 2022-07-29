@@ -29,7 +29,7 @@ def flask():
                 upload_name = secure_filename(upload.filename)
                 upload.save(os.path.join(app.config['UPLOAD_FOLDER'], upload_name))
                 #print('upload_image filename: ' + filename)
-                flash('Image successfully uploaded and displayed below')
+                
 
                 string = transfer.img_to_s(os.path.join(app.config['UPLOAD_FOLDER'], upload_name))
                 return render_template('braille.html', output=string)
@@ -47,6 +47,8 @@ def flask():
             # print(type(word))
             transfer.s_to_img(word)
             image = f'{word}.png'
+            flash('String successfully translated and displayed below')
+
             return render_template('braille.html', output2= image)
             
         else:
@@ -56,3 +58,4 @@ def flask():
     #     app.run(host='0.0.0.0', port=5001)
     app.run(host='0.0.0.0', port=5001)
 
+# flask()

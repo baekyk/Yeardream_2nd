@@ -1,5 +1,6 @@
 import transfer
 import Braille_API
+import tensorflow as tf
 
 # acc확인
 # acc = mk_model.acc_chk(model,val_generator)
@@ -10,6 +11,10 @@ mode
 2 : 'braille to string',
 3 : 'string to braille'
 '''
+
+
+physical_devices = tf.config.list_physical_devices('GPU')
+tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 mode = 'API'
 
@@ -24,3 +29,9 @@ elif mode == 'string to braille':
 else:
     print('Please re-choice mode')
     quit()
+
+
+# import trainer
+# with tf.device("/device:GPU:0"):
+# 
+#     trainer.train()
