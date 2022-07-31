@@ -34,3 +34,4 @@ def train():
     import mk_model
     hist = mk_model.Make_model(train_generator,val_generator)
     mk_model.print_acc_loss(hist)
+
